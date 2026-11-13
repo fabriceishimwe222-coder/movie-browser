@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { movies } from "../data/movies";
 
 export default function MovieDetail({ favorites, toggleFavorite }) {
   const { id } = useParams();
   const movie = movies.find((item) => item.id === Number(id));
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [localVideoUrl, setLocalVideoUrl] = useState(null);
+  const localVideo =
+    movie && selectedVideo?.movieId === movie.id ? selectedVideo.file : null;
+  const activeLocalVideoUrl =
+    movie && localVideoUrl?.movieId === movie.id ? localVideoUrl.url : null;
+
+  useEffect(() => {
+    if (!localVideo || !movie) {
+      setLocalVideoUrl(null);
+      return undefined;
+    }
+
+    const url = URL.createObjectURL(localVideo);
+    setLocalVideoUrl({ movieId: movie.id, url });
+    return () => URL.revokeObjectURL(url);
+  }, [localVideo, movie]);
+
+  function handleVideoFileChange(event) {
+    const file = event.target.files?.[0];
+    if (file && movie) {
+      setSelectedVideo({ movieId: movie.id, file });
+    }
+    event.currentTarget.value = "";
+  }
 
   if (!movie) {
     return (
@@ -56,6 +82,34 @@ export default function MovieDetail({ favorites, toggleFavorite }) {
           </button>
         </div>
       </div>
+      <section className="movie-player-section" aria-label={`${movie.title} playback`}>
+        <h2>Watch this film</h2>
+        <label className="movie-file-label">
+          Choose a video file
+          <input
+            className="movie-file-input"
+            type="file"
+            accept="video/*"
+            onChange={handleVideoFileChange}
+          />
+        </label>
+        {activeLocalVideoUrl || movie.videoSrc ? (
+          <video
+            className="movie-player"
+            controls
+            playsInline
+            preload="metadata"
+            src={activeLocalVideoUrl || movie.videoSrc}
+          >
+            Your browser does not support video playback.
+          </video>
+        ) : (
+          <p className="movie-player-unavailable">
+            Choose a video file above, or add a direct video URL as
+            <code> videoSrc</code> in <code>src/data/movies.js</code>.
+          </p>
+        )}
+      </section>
     </article>
   );
 }

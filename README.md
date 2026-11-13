@@ -16,3 +16,15 @@ npm run build
 ```
 
 The production files are written to `dist/`. The app includes Discover, genre and text search, movie detail pages, a saved watchlist, and a not-found route.
+
+## Add video playback
+
+On a movie's detail page, choose a local video file with the **Choose a video file** button to play it in your browser. The file is not uploaded or added to the build. This works with files on your device, including a large file such as `Carter.mp4`.
+
+You can also set a movie's `videoSrc` in `src/data/movies.js` to a direct URL to a supported video file, or to a file served from the app. For example, put a video in `public/videos/` and use its public path:
+
+```js
+videoSrc: "/videos/example.mp4",
+```
+
+A movie without a URL still lets you select a local file on its detail page. The app does not host or provide movie files.
