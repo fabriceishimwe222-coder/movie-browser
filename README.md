@@ -1,6 +1,6 @@
-# Reel Good Movie Browser
+# Keazy Movie Hub
 
-A small React movie browser built with Vite and React Router. Movie information lives in `src/data/movies.js`; favorites are saved in the browser with localStorage. No API or account is required.
+A React movie & series browser built with Vite and React Router. Content lives in `src/data/movies.js`; favorites and comments are saved in the browser with localStorage. No API or account is required.
 
 ## Run locally
 
@@ -15,7 +15,7 @@ npm run dev
 npm run build
 ```
 
-The production files are written to `dist/`. The app includes Discover, genre and text search, movie detail pages, a saved watchlist, and a not-found route.
+The production files are written to `dist/`. The app includes a home page with featured/latest sections, genre browsing, Movies and Series catalogs with sorting, movie/series detail pages with download links and episodes, a saved watchlist, comments, support/donation pages, and static info pages (About, Contact, Privacy, Terms, Disclaimer, How It Works).
 
 ## Add video playback
 
